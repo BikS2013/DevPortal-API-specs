@@ -49,6 +49,8 @@ paths:
           description: Bad request
           schema:
             $ref: '#/definitions/ApiError'
+      security:
+      - Client-Id: []
       x-code-samples:
       - lang: C
         source: |-
@@ -202,6 +204,8 @@ paths:
             \ value not found."
           schema:
             $ref: '#/definitions/ApiError'
+      security:
+      - Client-Id: []
       x-code-samples:
       - lang: C
         source: |-
@@ -341,6 +345,8 @@ paths:
           description: Bad request
           schema:
             $ref: '#/definitions/ApiError'
+      security:
+      - Client-Id: []
       x-code-samples:
       - lang: C
         source: |-
@@ -466,8 +472,10 @@ paths:
       summary: Creates a new Sandbox with the specified sandboxId
       description: "Creates a sandbox with unique sandbox id. This call can also be\
         \ used to create users, accounts etc.\r\n            \r\n            \r\n\
-        Sample request:\r\n            \r\n    POST /sandbox\r\n    {\r\n        \"\
-        sandboxId\": \"TestSandbox\"\r\n    }"
+        Sample request:\r\n\r\n```javascript            \r\n    POST /sandbox\r\n\
+        \    header 'client-id: ...' //the client ID obtained during the application\
+        \ registration process\r\n    \r\n    {\r\n        \"sandboxId\": \"TestSandbox\"\
+        \r\n    }\r\n    \r\n```"
       operationId: Sandbox_CreateSandbox
       consumes:
       - application/json
@@ -497,6 +505,8 @@ paths:
           description: "- SBX-20000: Invalid sandboxId\r\n- SBX-20002: Incorrect json\
             \ format\r\n- SBX-40000: Sandbox with the same sandboxId already exists!\r\
             \n- SBX-60000: Cannot Create Sandbox"
+      security:
+      - Client-Id: []
       x-code-samples:
       - lang: C
         source: |-
@@ -663,6 +673,8 @@ paths:
           description: '- SBX-20000: Invalid sandboxId'
         404:
           description: '- SBX-30000: Sandbox Not Found'
+      security:
+      - Client-Id: []
       x-code-samples:
       - lang: C
         source: |-
@@ -823,6 +835,8 @@ paths:
             - SBX-60001: Cannot Update Sandbox"
         404:
           description: '- SBX-30000: Sandbox Not Found'
+      security:
+      - Client-Id: []
       x-code-samples:
       - lang: C
         source: |-
@@ -1000,6 +1014,8 @@ paths:
             \ Sandbox"
         404:
           description: '- SBX-30000: Sandbox Not Found'
+      security:
+      - Client-Id: []
       x-code-samples:
       - lang: C
         source: |-
@@ -1155,6 +1171,8 @@ paths:
           description: "- SBX-20000: Invalid sandboxId\r\n- SBX-20002: Incorrect json\
             \ format\r\n- SBX-40001: User with the same username already exists!\r\
             \n- SBX-60001: Cannot Update Sandbox"
+      security:
+      - Client-Id: []
       x-code-samples:
       - lang: C
         source: |-
