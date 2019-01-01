@@ -1,0 +1,1489 @@
+---
+openapi: 3.0.2
+info:
+  title: FX Rates API (spec version 3.0.x)
+  description: "# Welcome to the FX Rates API. \n\nHere you will find guidelines for\
+    \ the interaction with the FX Rates API an API dedicated to information about\
+    \ Currencies and Currency Exchange Rates.\n\nThe development and testing processes\
+    \ for the API are supported by a **Sandbox**, a construct designed to provide\
+    \ a simple way for developers to experiment with the API using data suitable to\
+    \ their needs and scenarios.\n\nSandboxes provide a simple way of testing APIs\
+    \ without any real impact, meaning that no personal or financial data is used.\
+    \ \n\n**Step One: Create your first Sandbox Application** \n\nCreate a new Sandbox\
+    \ application by invoking the POST /sandbox endpoint, as presented bellow. This\
+    \ call will generate a new Sandbox with a unique sandbox_id. \n\n**Important!**\
+    \ Before proceeding save the sandbox id you just created. \n\nWhen you create\
+    \ a sandbox, user and sandbox specific data are generated as sample data. \n\n\
+    ## **Security Requirements**\n- The following HTTP **header parameters** are used\
+    \ for every call (except for sandbox operations). \n\n\n1.  **client-id**\n- **sandbox_id**\
+    \ \n- **username** \n- **provider_id** \n- **provider** \n- **application_id**\n\
+    \n\n- For the sandbox operations only the `client-id` parameter is used and it\
+    \ is required. \n- For the rest of the operations the `client-id`, the `sandbox_id`,\
+    \ and the `username` headers are required.\n- `provider`and `provider_id` can\
+    \ be found as properties in the appropriate user object in Sandbox Data \n\n##\
+    \ **Sandbox Operations:** \n1.\tCreate a sandbox: POST /sandbox \n2.\tExport a\
+    \ sandbox: GET /sandbox/{sandbox_id}\n3.\tImport a sandbox: PUT /sandbox/{sandbox_id}\n\
+    4.\tDelete a sandbox: DELETE /sandbox/{sandbox_id} \n5.\tCreate a sandbox user:\
+    \ POST /sandbox/{sandbox_id}/users\n\n[Sandbox Postman Collection](https://github.com/myNBGcode/PostmanCollections/)\n\
+    \n------------------------------------------------------------------------------------------\
+    \ \n\nCreated by **NBG**. \n\nSee more at https://www.nbg.gr/"
+  contact:
+    email: developer@nbg.gr
+  version: v1.1
+servers:
+- url: https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1
+paths:
+  /currencies/all:
+    get:
+      tags:
+      - Currencies
+      summary: Supported Currencies
+      description: Returns an array of the supported currencies.
+      operationId: Currencies_Names
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Currency'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      security:
+      - Client-Id: []
+      x-code-samples:
+      - lang: C
+        source: |-
+          CURL *hnd = curl_easy_init();
+
+          curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+          curl_easy_setopt(hnd, CURLOPT_URL, "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all");
+
+          struct curl_slist *headers = NULL;
+          headers = curl_slist_append(headers, "client-id: SOME_APIKEY_VALUE");
+          headers = curl_slist_append(headers, "content-type: application/json");
+          curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+          CURLcode ret = curl_easy_perform(hnd);
+      - lang: C#
+        source: |-
+          var client = new RestClient("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all");
+          var request = new RestRequest(Method.GET);
+          request.AddHeader("client-id", "SOME_APIKEY_VALUE");
+          request.AddHeader("content-type", "application/json");
+          IRestResponse response = client.Execute(request);
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"fmt\"\n\t\"net/http\"\n\t\"io/ioutil\"\
+          \n)\n\nfunc main() {\n\n\turl := \"https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all\"\
+          \n\n\treq, _ := http.NewRequest(\"GET\", url, nil)\n\n\treq.Header.Add(\"\
+          content-type\", \"application/json\")\n\treq.Header.Add(\"client-id\", \"\
+          SOME_APIKEY_VALUE\")\n\n\tres, _ := http.DefaultClient.Do(req)\n\n\tdefer\
+          \ res.Body.Close()\n\tbody, _ := ioutil.ReadAll(res.Body)\n\n\tfmt.Println(res)\n\
+          \tfmt.Println(string(body))\n\n}"
+      - lang: Java
+        source: |-
+          OkHttpClient client = new OkHttpClient();
+
+          Request request = new Request.Builder()
+            .url("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all")
+            .get()
+            .addHeader("content-type", "application/json")
+            .addHeader("client-id", "SOME_APIKEY_VALUE")
+            .build();
+
+          Response response = client.newCall(request).execute();
+      - lang: Node
+        source: "var request = require(\"request\");\n\nvar options = { method: 'GET',\n\
+          \  url: 'https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all',\n\
+          \  headers: \n   { 'client-id': 'SOME_APIKEY_VALUE',\n     'content-type':\
+          \ 'application/json' } };\n\nrequest(options, function (error, response,\
+          \ body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n\
+          });\n"
+      - lang: PHP
+        source: |-
+          <?php
+
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+              "client-id: SOME_APIKEY_VALUE",
+              "content-type: application/json"
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+
+          curl_close($curl);
+
+          if ($err) {
+            echo "cURL Error #:" . $err;
+          } else {
+            echo $response;
+          }
+      - lang: Python
+        source: |-
+          import http.client
+
+          conn = http.client.HTTPSConnection("microsites.nbg.gr")
+
+          headers = {
+              'content-type': "application/json",
+              'client-id': "SOME_APIKEY_VALUE"
+              }
+
+          conn.request("GET", "/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all", headers=headers)
+
+          res = conn.getresponse()
+          data = res.read()
+
+          print(data.decode("utf-8"))
+      - lang: Ruby
+        source: |-
+          require 'uri'
+          require 'net/http'
+
+          url = URI("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all")
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Get.new(url)
+          request["content-type"] = 'application/json'
+          request["client-id"] = 'SOME_APIKEY_VALUE'
+
+          response = http.request(request)
+          puts response.read_body
+      - lang: cUrl
+        source: |-
+          curl --request GET \
+            --url https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/currencies/all \
+            --header 'client-id: SOME_APIKEY_VALUE' \
+            --header 'content-type: application/json'
+  /fx/{fromCurrency}/{toCurrency}:
+    get:
+      tags:
+      - Rates
+      summary: FX Rates of 2 currencies
+      description: Returns the NBG fx Rates of a specific couple of currencies.
+      operationId: FX_2CCYs
+      parameters:
+      - name: fromCurrency
+        in: path
+        description: from currency symbol (3 chars)
+        required: true
+        schema:
+          type: string
+      - name: toCurrency
+        in: path
+        description: to currency symbol (3 chars)
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FxRate'
+        400:
+          description: 'FXR-20003: fromCurrency value not supported.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        404:
+          description: "- FXR-30001: Fx Rate not found.\r\n- FXR-30002: toCurrency\
+            \ value not found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      security:
+      - Client-Id: []
+      x-code-samples:
+      - lang: C
+        source: |-
+          CURL *hnd = curl_easy_init();
+
+          curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+          curl_easy_setopt(hnd, CURLOPT_URL, "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D");
+
+          struct curl_slist *headers = NULL;
+          headers = curl_slist_append(headers, "client-id: SOME_APIKEY_VALUE");
+          headers = curl_slist_append(headers, "content-type: application/json");
+          curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+          CURLcode ret = curl_easy_perform(hnd);
+      - lang: C#
+        source: |-
+          var client = new RestClient("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D");
+          var request = new RestRequest(Method.GET);
+          request.AddHeader("client-id", "SOME_APIKEY_VALUE");
+          request.AddHeader("content-type", "application/json");
+          IRestResponse response = client.Execute(request);
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"fmt\"\n\t\"net/http\"\n\t\"io/ioutil\"\
+          \n)\n\nfunc main() {\n\n\turl := \"https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D\"\
+          \n\n\treq, _ := http.NewRequest(\"GET\", url, nil)\n\n\treq.Header.Add(\"\
+          content-type\", \"application/json\")\n\treq.Header.Add(\"client-id\", \"\
+          SOME_APIKEY_VALUE\")\n\n\tres, _ := http.DefaultClient.Do(req)\n\n\tdefer\
+          \ res.Body.Close()\n\tbody, _ := ioutil.ReadAll(res.Body)\n\n\tfmt.Println(res)\n\
+          \tfmt.Println(string(body))\n\n}"
+      - lang: Java
+        source: |-
+          OkHttpClient client = new OkHttpClient();
+
+          Request request = new Request.Builder()
+            .url("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D")
+            .get()
+            .addHeader("content-type", "application/json")
+            .addHeader("client-id", "SOME_APIKEY_VALUE")
+            .build();
+
+          Response response = client.newCall(request).execute();
+      - lang: Node
+        source: "var request = require(\"request\");\n\nvar options = { method: 'GET',\n\
+          \  url: 'https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D',\n\
+          \  headers: \n   { 'client-id': 'SOME_APIKEY_VALUE',\n     'content-type':\
+          \ 'application/json' } };\n\nrequest(options, function (error, response,\
+          \ body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n\
+          });\n"
+      - lang: PHP
+        source: |-
+          <?php
+
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+              "client-id: SOME_APIKEY_VALUE",
+              "content-type: application/json"
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+
+          curl_close($curl);
+
+          if ($err) {
+            echo "cURL Error #:" . $err;
+          } else {
+            echo $response;
+          }
+      - lang: Python
+        source: |-
+          import http.client
+
+          conn = http.client.HTTPSConnection("microsites.nbg.gr")
+
+          headers = {
+              'content-type': "application/json",
+              'client-id': "SOME_APIKEY_VALUE"
+              }
+
+          conn.request("GET", "/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D", headers=headers)
+
+          res = conn.getresponse()
+          data = res.read()
+
+          print(data.decode("utf-8"))
+      - lang: Ruby
+        source: |-
+          require 'uri'
+          require 'net/http'
+
+          url = URI("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D")
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Get.new(url)
+          request["content-type"] = 'application/json'
+          request["client-id"] = 'SOME_APIKEY_VALUE'
+
+          response = http.request(request)
+          puts response.read_body
+      - lang: cUrl
+        source: |-
+          curl --request GET \
+            --url https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/%7BfromCurrency%7D/%7BtoCurrency%7D \
+            --header 'client-id: SOME_APIKEY_VALUE' \
+            --header 'content-type: application/json'
+  /fx/all:
+    get:
+      tags:
+      - Rates
+      summary: FX Rates of all currencies
+      description: Returns the NBG fx Rates of all currencies.
+      operationId: FX_AllCCYs
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FxRate'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      security:
+      - Client-Id: []
+      x-code-samples:
+      - lang: C
+        source: |-
+          CURL *hnd = curl_easy_init();
+
+          curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+          curl_easy_setopt(hnd, CURLOPT_URL, "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/all");
+
+          struct curl_slist *headers = NULL;
+          headers = curl_slist_append(headers, "client-id: SOME_APIKEY_VALUE");
+          headers = curl_slist_append(headers, "content-type: application/json");
+          curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+          CURLcode ret = curl_easy_perform(hnd);
+      - lang: C#
+        source: |-
+          var client = new RestClient("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/all");
+          var request = new RestRequest(Method.GET);
+          request.AddHeader("client-id", "SOME_APIKEY_VALUE");
+          request.AddHeader("content-type", "application/json");
+          IRestResponse response = client.Execute(request);
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"fmt\"\n\t\"net/http\"\n\t\"io/ioutil\"\
+          \n)\n\nfunc main() {\n\n\turl := \"https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/all\"\
+          \n\n\treq, _ := http.NewRequest(\"GET\", url, nil)\n\n\treq.Header.Add(\"\
+          content-type\", \"application/json\")\n\treq.Header.Add(\"client-id\", \"\
+          SOME_APIKEY_VALUE\")\n\n\tres, _ := http.DefaultClient.Do(req)\n\n\tdefer\
+          \ res.Body.Close()\n\tbody, _ := ioutil.ReadAll(res.Body)\n\n\tfmt.Println(res)\n\
+          \tfmt.Println(string(body))\n\n}"
+      - lang: Java
+        source: |-
+          OkHttpClient client = new OkHttpClient();
+
+          Request request = new Request.Builder()
+            .url("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/all")
+            .get()
+            .addHeader("content-type", "application/json")
+            .addHeader("client-id", "SOME_APIKEY_VALUE")
+            .build();
+
+          Response response = client.newCall(request).execute();
+      - lang: Node
+        source: "var request = require(\"request\");\n\nvar options = { method: 'GET',\n\
+          \  url: 'https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/all',\n\
+          \  headers: \n   { 'client-id': 'SOME_APIKEY_VALUE',\n     'content-type':\
+          \ 'application/json' } };\n\nrequest(options, function (error, response,\
+          \ body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n\
+          });\n"
+      - lang: PHP
+        source: |-
+          <?php
+
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/all",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+              "client-id: SOME_APIKEY_VALUE",
+              "content-type: application/json"
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+
+          curl_close($curl);
+
+          if ($err) {
+            echo "cURL Error #:" . $err;
+          } else {
+            echo $response;
+          }
+      - lang: Python
+        source: |-
+          import http.client
+
+          conn = http.client.HTTPSConnection("microsites.nbg.gr")
+
+          headers = {
+              'content-type': "application/json",
+              'client-id': "SOME_APIKEY_VALUE"
+              }
+
+          conn.request("GET", "/api.gateway/sandbox/fxrates/headers/v1.1/fx/all", headers=headers)
+
+          res = conn.getresponse()
+          data = res.read()
+
+          print(data.decode("utf-8"))
+      - lang: Ruby
+        source: |-
+          require 'uri'
+          require 'net/http'
+
+          url = URI("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/all")
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Get.new(url)
+          request["content-type"] = 'application/json'
+          request["client-id"] = 'SOME_APIKEY_VALUE'
+
+          response = http.request(request)
+          puts response.read_body
+      - lang: cUrl
+        source: |-
+          curl --request GET \
+            --url https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/fx/all \
+            --header 'client-id: SOME_APIKEY_VALUE' \
+            --header 'content-type: application/json'
+  /sandbox:
+    post:
+      tags:
+      - Sandbox
+      summary: Creates a new Sandbox with the specified sandboxId
+      description: "Creates a sandbox with unique sandbox id. This call can also be\
+        \ used to create users, accounts etc.\r\n            \r\n            \r\n\
+        Sample request:\r\n\r\n```javascript            \r\n    POST /sandbox\r\n\
+        \    header 'client-id: ...' //the client ID obtained during the application\
+        \ registration process\r\n    \r\n    {\r\n        \"sandboxId\": \"TestSandbox\"\
+        \r\n    }\r\n    \r\n```"
+      operationId: Sandbox_CreateSandbox
+      requestBody:
+        description: Sandbox identifier
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SandboxRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/SandboxRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/SandboxRequest'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/SandboxRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SandboxRequest'
+        required: true
+      responses:
+        201:
+          description: after the successfull sandbox creation, the call returns the
+            new sandbox as a json object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+        400:
+          description: "- SBX-20000: Invalid sandboxId\r\n- SBX-20002: Incorrect json\
+            \ format\r\n- SBX-40000: Sandbox with the same sandboxId already exists!\r\
+            \n- SBX-60000: Cannot Create Sandbox"
+      security:
+      - Client-Id: []
+      x-code-samples:
+      - lang: C
+        source: |-
+          CURL *hnd = curl_easy_init();
+
+          curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+          curl_easy_setopt(hnd, CURLOPT_URL, "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox");
+
+          struct curl_slist *headers = NULL;
+          headers = curl_slist_append(headers, "client-id: SOME_APIKEY_VALUE");
+          headers = curl_slist_append(headers, "content-type: application/json");
+          headers = curl_slist_append(headers, "accept: application/json");
+          curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+          curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"sandboxId\":\"<ADD STRING VALUE>\"}");
+
+          CURLcode ret = curl_easy_perform(hnd);
+      - lang: C#
+        source: |-
+          var client = new RestClient("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox");
+          var request = new RestRequest(Method.POST);
+          request.AddHeader("client-id", "SOME_APIKEY_VALUE");
+          request.AddHeader("content-type", "application/json");
+          request.AddHeader("accept", "application/json");
+          request.AddParameter("application/json", "{\"sandboxId\":\"<ADD STRING VALUE>\"}", ParameterType.RequestBody);
+          IRestResponse response = client.Execute(request);
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n\t\"net/http\"\
+          \n\t\"io/ioutil\"\n)\n\nfunc main() {\n\n\turl := \"https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox\"\
+          \n\n\tpayload := strings.NewReader(\"{\\\"sandboxId\\\":\\\"<ADD STRING\
+          \ VALUE>\\\"}\")\n\n\treq, _ := http.NewRequest(\"POST\", url, payload)\n\
+          \n\treq.Header.Add(\"accept\", \"application/json\")\n\treq.Header.Add(\"\
+          content-type\", \"application/json\")\n\treq.Header.Add(\"client-id\", \"\
+          SOME_APIKEY_VALUE\")\n\n\tres, _ := http.DefaultClient.Do(req)\n\n\tdefer\
+          \ res.Body.Close()\n\tbody, _ := ioutil.ReadAll(res.Body)\n\n\tfmt.Println(res)\n\
+          \tfmt.Println(string(body))\n\n}"
+      - lang: Java
+        source: |-
+          OkHttpClient client = new OkHttpClient();
+
+          MediaType mediaType = MediaType.parse("application/json");
+          RequestBody body = RequestBody.create(mediaType, "{\"sandboxId\":\"<ADD STRING VALUE>\"}");
+          Request request = new Request.Builder()
+            .url("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox")
+            .post(body)
+            .addHeader("accept", "application/json")
+            .addHeader("content-type", "application/json")
+            .addHeader("client-id", "SOME_APIKEY_VALUE")
+            .build();
+
+          Response response = client.newCall(request).execute();
+      - lang: Node
+        source: "var request = require(\"request\");\n\nvar options = { method: 'POST',\n\
+          \  url: 'https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox',\n\
+          \  headers: \n   { 'client-id': 'SOME_APIKEY_VALUE',\n     'content-type':\
+          \ 'application/json',\n     accept: 'application/json' },\n  body: { sandboxId:\
+          \ '<ADD STRING VALUE>' },\n  json: true };\n\nrequest(options, function\
+          \ (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n\
+          });\n"
+      - lang: PHP
+        source: |-
+          <?php
+
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\"sandboxId\":\"<ADD STRING VALUE>\"}",
+            CURLOPT_HTTPHEADER => array(
+              "accept: application/json",
+              "client-id: SOME_APIKEY_VALUE",
+              "content-type: application/json"
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+
+          curl_close($curl);
+
+          if ($err) {
+            echo "cURL Error #:" . $err;
+          } else {
+            echo $response;
+          }
+      - lang: Python
+        source: |-
+          import http.client
+
+          conn = http.client.HTTPSConnection("microsites.nbg.gr")
+
+          payload = "{\"sandboxId\":\"<ADD STRING VALUE>\"}"
+
+          headers = {
+              'accept': "application/json",
+              'content-type': "application/json",
+              'client-id': "SOME_APIKEY_VALUE"
+              }
+
+          conn.request("POST", "/api.gateway/sandbox/fxrates/headers/v1.1/sandbox", payload, headers)
+
+          res = conn.getresponse()
+          data = res.read()
+
+          print(data.decode("utf-8"))
+      - lang: Ruby
+        source: |-
+          require 'uri'
+          require 'net/http'
+
+          url = URI("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox")
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Post.new(url)
+          request["accept"] = 'application/json'
+          request["content-type"] = 'application/json'
+          request["client-id"] = 'SOME_APIKEY_VALUE'
+          request.body = "{\"sandboxId\":\"<ADD STRING VALUE>\"}"
+
+          response = http.request(request)
+          puts response.read_body
+      - lang: cUrl
+        source: |-
+          curl --request POST \
+            --url https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox \
+            --header 'accept: application/json' \
+            --header 'client-id: SOME_APIKEY_VALUE' \
+            --header 'content-type: application/json' \
+            --data '{"sandboxId":"<ADD STRING VALUE>"}'
+  /sandbox/{sandbox_id}:
+    get:
+      tags:
+      - Sandbox
+      summary: Export Sandbox
+      description: Returns the Sandbox specified by sandboxId as json object.
+      operationId: Sandbox_ExportSandbox
+      parameters:
+      - name: sandbox_id
+        in: path
+        description: Sandbox ID
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: '- OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+        400:
+          description: '- SBX-20000: Invalid sandboxId'
+        404:
+          description: '- SBX-30000: Sandbox Not Found'
+      security:
+      - Client-Id: []
+      x-code-samples:
+      - lang: C
+        source: |-
+          CURL *hnd = curl_easy_init();
+
+          curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "GET");
+          curl_easy_setopt(hnd, CURLOPT_URL, "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D");
+
+          struct curl_slist *headers = NULL;
+          headers = curl_slist_append(headers, "client-id: SOME_APIKEY_VALUE");
+          headers = curl_slist_append(headers, "content-type: application/json");
+          curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+          CURLcode ret = curl_easy_perform(hnd);
+      - lang: C#
+        source: |-
+          var client = new RestClient("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D");
+          var request = new RestRequest(Method.GET);
+          request.AddHeader("client-id", "SOME_APIKEY_VALUE");
+          request.AddHeader("content-type", "application/json");
+          IRestResponse response = client.Execute(request);
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"fmt\"\n\t\"net/http\"\n\t\"io/ioutil\"\
+          \n)\n\nfunc main() {\n\n\turl := \"https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D\"\
+          \n\n\treq, _ := http.NewRequest(\"GET\", url, nil)\n\n\treq.Header.Add(\"\
+          content-type\", \"application/json\")\n\treq.Header.Add(\"client-id\", \"\
+          SOME_APIKEY_VALUE\")\n\n\tres, _ := http.DefaultClient.Do(req)\n\n\tdefer\
+          \ res.Body.Close()\n\tbody, _ := ioutil.ReadAll(res.Body)\n\n\tfmt.Println(res)\n\
+          \tfmt.Println(string(body))\n\n}"
+      - lang: Java
+        source: |-
+          OkHttpClient client = new OkHttpClient();
+
+          Request request = new Request.Builder()
+            .url("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D")
+            .get()
+            .addHeader("content-type", "application/json")
+            .addHeader("client-id", "SOME_APIKEY_VALUE")
+            .build();
+
+          Response response = client.newCall(request).execute();
+      - lang: Node
+        source: "var request = require(\"request\");\n\nvar options = { method: 'GET',\n\
+          \  url: 'https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D',\n\
+          \  headers: \n   { 'client-id': 'SOME_APIKEY_VALUE',\n     'content-type':\
+          \ 'application/json' } };\n\nrequest(options, function (error, response,\
+          \ body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n\
+          });\n"
+      - lang: PHP
+        source: |-
+          <?php
+
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+              "client-id: SOME_APIKEY_VALUE",
+              "content-type: application/json"
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+
+          curl_close($curl);
+
+          if ($err) {
+            echo "cURL Error #:" . $err;
+          } else {
+            echo $response;
+          }
+      - lang: Python
+        source: |-
+          import http.client
+
+          conn = http.client.HTTPSConnection("microsites.nbg.gr")
+
+          headers = {
+              'content-type': "application/json",
+              'client-id': "SOME_APIKEY_VALUE"
+              }
+
+          conn.request("GET", "/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D", headers=headers)
+
+          res = conn.getresponse()
+          data = res.read()
+
+          print(data.decode("utf-8"))
+      - lang: Ruby
+        source: |-
+          require 'uri'
+          require 'net/http'
+
+          url = URI("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D")
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Get.new(url)
+          request["content-type"] = 'application/json'
+          request["client-id"] = 'SOME_APIKEY_VALUE'
+
+          response = http.request(request)
+          puts response.read_body
+      - lang: cUrl
+        source: |-
+          curl --request GET \
+            --url https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D \
+            --header 'client-id: SOME_APIKEY_VALUE' \
+            --header 'content-type: application/json'
+    put:
+      tags:
+      - Sandbox
+      summary: Updates the sandbox
+      description: Updates the Sandbox specified by sandboxId with the content of
+        the Request Body. After a successful update returns the new sandbox aa json
+        object.
+      operationId: Sandbox_ImportSandbox
+      parameters:
+      - name: sandbox_id
+        in: path
+        description: Sandbox Id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SandboxDataModel'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/SandboxDataModel'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/SandboxDataModel'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/SandboxDataModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SandboxDataModel'
+        required: true
+      responses:
+        200:
+          description: '- OK'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/SandboxDataModel'
+        400:
+          description: "- SBX-20000: Invalid sandboxId\r\n- SBX-20001: Concurrency\
+            \ exception.Please try again\r\n- SBX-20002: Incorrect json format\r\n\
+            - SBX-60001: Cannot Update Sandbox"
+        404:
+          description: '- SBX-30000: Sandbox Not Found'
+      security:
+      - Client-Id: []
+      x-code-samples:
+      - lang: C
+        source: |-
+          CURL *hnd = curl_easy_init();
+
+          curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "PUT");
+          curl_easy_setopt(hnd, CURLOPT_URL, "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D");
+
+          struct curl_slist *headers = NULL;
+          headers = curl_slist_append(headers, "client-id: SOME_APIKEY_VALUE");
+          headers = curl_slist_append(headers, "content-type: application/json");
+          headers = curl_slist_append(headers, "accept: application/json");
+          curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+          curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"sandboxId\":\"<ADD STRING VALUE>\",\"users\":[{\"Username\":\"<ADD STRING VALUE>\",\"ProviderId\":\"<ADD STRING VALUE>\",\"Provider\":\"<ADD STRING VALUE>\"}],\"fxRates\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_ECBREF\":\"<ADD STRING VALUE>\",\"DELT_TAS\":\"<ADD STRING VALUE>\",\"DELT_TPS\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\",\"DELT_TAXT\":\"<ADD STRING VALUE>\",\"DELT_ETEREF\":\"<ADD STRING VALUE>\",\"DELT_TPXT\":\"<ADD STRING VALUE>\"}],\"currencies\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\"}]}");
+
+          CURLcode ret = curl_easy_perform(hnd);
+      - lang: C#
+        source: |-
+          var client = new RestClient("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D");
+          var request = new RestRequest(Method.PUT);
+          request.AddHeader("client-id", "SOME_APIKEY_VALUE");
+          request.AddHeader("content-type", "application/json");
+          request.AddHeader("accept", "application/json");
+          request.AddParameter("application/json", "{\"sandboxId\":\"<ADD STRING VALUE>\",\"users\":[{\"Username\":\"<ADD STRING VALUE>\",\"ProviderId\":\"<ADD STRING VALUE>\",\"Provider\":\"<ADD STRING VALUE>\"}],\"fxRates\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_ECBREF\":\"<ADD STRING VALUE>\",\"DELT_TAS\":\"<ADD STRING VALUE>\",\"DELT_TPS\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\",\"DELT_TAXT\":\"<ADD STRING VALUE>\",\"DELT_ETEREF\":\"<ADD STRING VALUE>\",\"DELT_TPXT\":\"<ADD STRING VALUE>\"}],\"currencies\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\"}]}", ParameterType.RequestBody);
+          IRestResponse response = client.Execute(request);
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n\t\"net/http\"\
+          \n\t\"io/ioutil\"\n)\n\nfunc main() {\n\n\turl := \"https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D\"\
+          \n\n\tpayload := strings.NewReader(\"{\\\"sandboxId\\\":\\\"<ADD STRING\
+          \ VALUE>\\\",\\\"users\\\":[{\\\"Username\\\":\\\"<ADD STRING VALUE>\\\"\
+          ,\\\"ProviderId\\\":\\\"<ADD STRING VALUE>\\\",\\\"Provider\\\":\\\"<ADD\
+          \ STRING VALUE>\\\"}],\\\"fxRates\\\":[{\\\"DELT_LEKT\\\":\\\"<ADD STRING\
+          \ VALUE>\\\",\\\"DELT_ECBREF\\\":\\\"<ADD STRING VALUE>\\\",\\\"DELT_TAS\\\
+          \":\\\"<ADD STRING VALUE>\\\",\\\"DELT_TPS\\\":\\\"<ADD STRING VALUE>\\\"\
+          ,\\\"DELT_NOM\\\":\\\"<ADD STRING VALUE>\\\",\\\"DELT_TAXT\\\":\\\"<ADD\
+          \ STRING VALUE>\\\",\\\"DELT_ETEREF\\\":\\\"<ADD STRING VALUE>\\\",\\\"\
+          DELT_TPXT\\\":\\\"<ADD STRING VALUE>\\\"}],\\\"currencies\\\":[{\\\"DELT_LEKT\\\
+          \":\\\"<ADD STRING VALUE>\\\",\\\"DELT_NOM\\\":\\\"<ADD STRING VALUE>\\\"\
+          }]}\")\n\n\treq, _ := http.NewRequest(\"PUT\", url, payload)\n\n\treq.Header.Add(\"\
+          accept\", \"application/json\")\n\treq.Header.Add(\"content-type\", \"application/json\"\
+          )\n\treq.Header.Add(\"client-id\", \"SOME_APIKEY_VALUE\")\n\n\tres, _ :=\
+          \ http.DefaultClient.Do(req)\n\n\tdefer res.Body.Close()\n\tbody, _ := ioutil.ReadAll(res.Body)\n\
+          \n\tfmt.Println(res)\n\tfmt.Println(string(body))\n\n}"
+      - lang: Java
+        source: |-
+          OkHttpClient client = new OkHttpClient();
+
+          MediaType mediaType = MediaType.parse("application/json");
+          RequestBody body = RequestBody.create(mediaType, "{\"sandboxId\":\"<ADD STRING VALUE>\",\"users\":[{\"Username\":\"<ADD STRING VALUE>\",\"ProviderId\":\"<ADD STRING VALUE>\",\"Provider\":\"<ADD STRING VALUE>\"}],\"fxRates\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_ECBREF\":\"<ADD STRING VALUE>\",\"DELT_TAS\":\"<ADD STRING VALUE>\",\"DELT_TPS\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\",\"DELT_TAXT\":\"<ADD STRING VALUE>\",\"DELT_ETEREF\":\"<ADD STRING VALUE>\",\"DELT_TPXT\":\"<ADD STRING VALUE>\"}],\"currencies\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\"}]}");
+          Request request = new Request.Builder()
+            .url("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D")
+            .put(body)
+            .addHeader("accept", "application/json")
+            .addHeader("content-type", "application/json")
+            .addHeader("client-id", "SOME_APIKEY_VALUE")
+            .build();
+
+          Response response = client.newCall(request).execute();
+      - lang: Node
+        source: "var request = require(\"request\");\n\nvar options = { method: 'PUT',\n\
+          \  url: 'https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D',\n\
+          \  headers: \n   { 'client-id': 'SOME_APIKEY_VALUE',\n     'content-type':\
+          \ 'application/json',\n     accept: 'application/json' },\n  body: \n  \
+          \ { sandboxId: '<ADD STRING VALUE>',\n     users: \n      [ { Username:\
+          \ '<ADD STRING VALUE>',\n          ProviderId: '<ADD STRING VALUE>',\n \
+          \         Provider: '<ADD STRING VALUE>' } ],\n     fxRates: \n      [ {\
+          \ DELT_LEKT: '<ADD STRING VALUE>',\n          DELT_ECBREF: '<ADD STRING\
+          \ VALUE>',\n          DELT_TAS: '<ADD STRING VALUE>',\n          DELT_TPS:\
+          \ '<ADD STRING VALUE>',\n          DELT_NOM: '<ADD STRING VALUE>',\n   \
+          \       DELT_TAXT: '<ADD STRING VALUE>',\n          DELT_ETEREF: '<ADD STRING\
+          \ VALUE>',\n          DELT_TPXT: '<ADD STRING VALUE>' } ],\n     currencies:\
+          \ \n      [ { DELT_LEKT: '<ADD STRING VALUE>',\n          DELT_NOM: '<ADD\
+          \ STRING VALUE>' } ] },\n  json: true };\n\nrequest(options, function (error,\
+          \ response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n\
+          });\n"
+      - lang: PHP
+        source: |-
+          <?php
+
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "PUT",
+            CURLOPT_POSTFIELDS => "{\"sandboxId\":\"<ADD STRING VALUE>\",\"users\":[{\"Username\":\"<ADD STRING VALUE>\",\"ProviderId\":\"<ADD STRING VALUE>\",\"Provider\":\"<ADD STRING VALUE>\"}],\"fxRates\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_ECBREF\":\"<ADD STRING VALUE>\",\"DELT_TAS\":\"<ADD STRING VALUE>\",\"DELT_TPS\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\",\"DELT_TAXT\":\"<ADD STRING VALUE>\",\"DELT_ETEREF\":\"<ADD STRING VALUE>\",\"DELT_TPXT\":\"<ADD STRING VALUE>\"}],\"currencies\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\"}]}",
+            CURLOPT_HTTPHEADER => array(
+              "accept: application/json",
+              "client-id: SOME_APIKEY_VALUE",
+              "content-type: application/json"
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+
+          curl_close($curl);
+
+          if ($err) {
+            echo "cURL Error #:" . $err;
+          } else {
+            echo $response;
+          }
+      - lang: Python
+        source: |-
+          import http.client
+
+          conn = http.client.HTTPSConnection("microsites.nbg.gr")
+
+          payload = "{\"sandboxId\":\"<ADD STRING VALUE>\",\"users\":[{\"Username\":\"<ADD STRING VALUE>\",\"ProviderId\":\"<ADD STRING VALUE>\",\"Provider\":\"<ADD STRING VALUE>\"}],\"fxRates\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_ECBREF\":\"<ADD STRING VALUE>\",\"DELT_TAS\":\"<ADD STRING VALUE>\",\"DELT_TPS\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\",\"DELT_TAXT\":\"<ADD STRING VALUE>\",\"DELT_ETEREF\":\"<ADD STRING VALUE>\",\"DELT_TPXT\":\"<ADD STRING VALUE>\"}],\"currencies\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\"}]}"
+
+          headers = {
+              'accept': "application/json",
+              'content-type': "application/json",
+              'client-id': "SOME_APIKEY_VALUE"
+              }
+
+          conn.request("PUT", "/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D", payload, headers)
+
+          res = conn.getresponse()
+          data = res.read()
+
+          print(data.decode("utf-8"))
+      - lang: Ruby
+        source: |-
+          require 'uri'
+          require 'net/http'
+
+          url = URI("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D")
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Put.new(url)
+          request["accept"] = 'application/json'
+          request["content-type"] = 'application/json'
+          request["client-id"] = 'SOME_APIKEY_VALUE'
+          request.body = "{\"sandboxId\":\"<ADD STRING VALUE>\",\"users\":[{\"Username\":\"<ADD STRING VALUE>\",\"ProviderId\":\"<ADD STRING VALUE>\",\"Provider\":\"<ADD STRING VALUE>\"}],\"fxRates\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_ECBREF\":\"<ADD STRING VALUE>\",\"DELT_TAS\":\"<ADD STRING VALUE>\",\"DELT_TPS\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\",\"DELT_TAXT\":\"<ADD STRING VALUE>\",\"DELT_ETEREF\":\"<ADD STRING VALUE>\",\"DELT_TPXT\":\"<ADD STRING VALUE>\"}],\"currencies\":[{\"DELT_LEKT\":\"<ADD STRING VALUE>\",\"DELT_NOM\":\"<ADD STRING VALUE>\"}]}"
+
+          response = http.request(request)
+          puts response.read_body
+      - lang: cUrl
+        source: |-
+          curl --request PUT \
+            --url https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D \
+            --header 'accept: application/json' \
+            --header 'client-id: SOME_APIKEY_VALUE' \
+            --header 'content-type: application/json' \
+            --data '{"sandboxId":"<ADD STRING VALUE>","users":[{"Username":"<ADD STRING VALUE>","ProviderId":"<ADD STRING VALUE>","Provider":"<ADD STRING VALUE>"}],"fxRates":[{"DELT_LEKT":"<ADD STRING VALUE>","DELT_ECBREF":"<ADD STRING VALUE>","DELT_TAS":"<ADD STRING VALUE>","DELT_TPS":"<ADD STRING VALUE>","DELT_NOM":"<ADD STRING VALUE>","DELT_TAXT":"<ADD STRING VALUE>","DELT_ETEREF":"<ADD STRING VALUE>","DELT_TPXT":"<ADD STRING VALUE>"}],"currencies":[{"DELT_LEKT":"<ADD STRING VALUE>","DELT_NOM":"<ADD STRING VALUE>"}]}'
+    delete:
+      tags:
+      - Sandbox
+      summary: Delete Sandbox
+      description: Deletes the Sanbox specified by sandboxId.
+      operationId: Sandbox_DeleteSandbox
+      parameters:
+      - name: sandbox_id
+        in: path
+        description: Sandbox ID
+        required: true
+        schema:
+          type: string
+      responses:
+        204:
+          description: '- NoContent'
+        400:
+          description: "- SBX-20000: Invalid sandboxId\r\n- SBX-60002: Cannot Delete\
+            \ Sandbox"
+        404:
+          description: '- SBX-30000: Sandbox Not Found'
+      security:
+      - Client-Id: []
+      x-code-samples:
+      - lang: C
+        source: |-
+          CURL *hnd = curl_easy_init();
+
+          curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "DELETE");
+          curl_easy_setopt(hnd, CURLOPT_URL, "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D");
+
+          struct curl_slist *headers = NULL;
+          headers = curl_slist_append(headers, "client-id: SOME_APIKEY_VALUE");
+          curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+          CURLcode ret = curl_easy_perform(hnd);
+      - lang: C#
+        source: |-
+          var client = new RestClient("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D");
+          var request = new RestRequest(Method.DELETE);
+          request.AddHeader("client-id", "SOME_APIKEY_VALUE");
+          IRestResponse response = client.Execute(request);
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"fmt\"\n\t\"net/http\"\n\t\"io/ioutil\"\
+          \n)\n\nfunc main() {\n\n\turl := \"https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D\"\
+          \n\n\treq, _ := http.NewRequest(\"DELETE\", url, nil)\n\n\treq.Header.Add(\"\
+          client-id\", \"SOME_APIKEY_VALUE\")\n\n\tres, _ := http.DefaultClient.Do(req)\n\
+          \n\tdefer res.Body.Close()\n\tbody, _ := ioutil.ReadAll(res.Body)\n\n\t\
+          fmt.Println(res)\n\tfmt.Println(string(body))\n\n}"
+      - lang: Java
+        source: |-
+          OkHttpClient client = new OkHttpClient();
+
+          Request request = new Request.Builder()
+            .url("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D")
+            .delete(null)
+            .addHeader("client-id", "SOME_APIKEY_VALUE")
+            .build();
+
+          Response response = client.newCall(request).execute();
+      - lang: Node
+        source: |
+          var request = require("request");
+
+          var options = { method: 'DELETE',
+            url: 'https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D',
+            headers: { 'client-id': 'SOME_APIKEY_VALUE' } };
+
+          request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+
+            console.log(body);
+          });
+      - lang: PHP
+        source: |-
+          <?php
+
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "DELETE",
+            CURLOPT_HTTPHEADER => array(
+              "client-id: SOME_APIKEY_VALUE"
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+
+          curl_close($curl);
+
+          if ($err) {
+            echo "cURL Error #:" . $err;
+          } else {
+            echo $response;
+          }
+      - lang: Python
+        source: |-
+          import http.client
+
+          conn = http.client.HTTPSConnection("microsites.nbg.gr")
+
+          headers = { 'client-id': "SOME_APIKEY_VALUE" }
+
+          conn.request("DELETE", "/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D", headers=headers)
+
+          res = conn.getresponse()
+          data = res.read()
+
+          print(data.decode("utf-8"))
+      - lang: Ruby
+        source: |-
+          require 'uri'
+          require 'net/http'
+
+          url = URI("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D")
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Delete.new(url)
+          request["client-id"] = 'SOME_APIKEY_VALUE'
+
+          response = http.request(request)
+          puts response.read_body
+      - lang: cUrl
+        source: |-
+          curl --request DELETE \
+            --url https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D \
+            --header 'client-id: SOME_APIKEY_VALUE'
+  /sandbox/{sandbox_id}/users:
+    post:
+      tags:
+      - Sandbox
+      summary: Create Sandbox User
+      description: "Creates Sandbox User.\r\n\r\n\r\nSample request:\r\n\r\n    POST\
+        \ /sandbox/{sandbox_id}/users\r\n    {\r\n      \"username\": \"user3\"\r\n\
+        \    }"
+      operationId: Sandbox_CreateSandboxUser
+      parameters:
+      - name: sandbox_id
+        in: path
+        description: ""
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+          text/xml:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        required: true
+      responses:
+        201:
+          description: '- Created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SandboxUser'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/SandboxUser'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SandboxUser'
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/SandboxUser'
+        400:
+          description: "- SBX-20000: Invalid sandboxId\r\n- SBX-20002: Incorrect json\
+            \ format\r\n- SBX-40001: User with the same username already exists!\r\
+            \n- SBX-60001: Cannot Update Sandbox"
+      security:
+      - Client-Id: []
+      x-code-samples:
+      - lang: C
+        source: |-
+          CURL *hnd = curl_easy_init();
+
+          curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+          curl_easy_setopt(hnd, CURLOPT_URL, "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users");
+
+          struct curl_slist *headers = NULL;
+          headers = curl_slist_append(headers, "client-id: SOME_APIKEY_VALUE");
+          headers = curl_slist_append(headers, "content-type: application/json");
+          headers = curl_slist_append(headers, "accept: application/json");
+          curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+
+          curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, "{\"username\":\"<ADD STRING VALUE>\"}");
+
+          CURLcode ret = curl_easy_perform(hnd);
+      - lang: C#
+        source: |-
+          var client = new RestClient("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users");
+          var request = new RestRequest(Method.POST);
+          request.AddHeader("client-id", "SOME_APIKEY_VALUE");
+          request.AddHeader("content-type", "application/json");
+          request.AddHeader("accept", "application/json");
+          request.AddParameter("application/json", "{\"username\":\"<ADD STRING VALUE>\"}", ParameterType.RequestBody);
+          IRestResponse response = client.Execute(request);
+      - lang: Go
+        source: "package main\n\nimport (\n\t\"fmt\"\n\t\"strings\"\n\t\"net/http\"\
+          \n\t\"io/ioutil\"\n)\n\nfunc main() {\n\n\turl := \"https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users\"\
+          \n\n\tpayload := strings.NewReader(\"{\\\"username\\\":\\\"<ADD STRING VALUE>\\\
+          \"}\")\n\n\treq, _ := http.NewRequest(\"POST\", url, payload)\n\n\treq.Header.Add(\"\
+          accept\", \"application/json\")\n\treq.Header.Add(\"content-type\", \"application/json\"\
+          )\n\treq.Header.Add(\"client-id\", \"SOME_APIKEY_VALUE\")\n\n\tres, _ :=\
+          \ http.DefaultClient.Do(req)\n\n\tdefer res.Body.Close()\n\tbody, _ := ioutil.ReadAll(res.Body)\n\
+          \n\tfmt.Println(res)\n\tfmt.Println(string(body))\n\n}"
+      - lang: Java
+        source: |-
+          OkHttpClient client = new OkHttpClient();
+
+          MediaType mediaType = MediaType.parse("application/json");
+          RequestBody body = RequestBody.create(mediaType, "{\"username\":\"<ADD STRING VALUE>\"}");
+          Request request = new Request.Builder()
+            .url("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users")
+            .post(body)
+            .addHeader("accept", "application/json")
+            .addHeader("content-type", "application/json")
+            .addHeader("client-id", "SOME_APIKEY_VALUE")
+            .build();
+
+          Response response = client.newCall(request).execute();
+      - lang: Node
+        source: "var request = require(\"request\");\n\nvar options = { method: 'POST',\n\
+          \  url: 'https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users',\n\
+          \  headers: \n   { 'client-id': 'SOME_APIKEY_VALUE',\n     'content-type':\
+          \ 'application/json',\n     accept: 'application/json' },\n  body: { username:\
+          \ '<ADD STRING VALUE>' },\n  json: true };\n\nrequest(options, function\
+          \ (error, response, body) {\n  if (error) throw new Error(error);\n\n  console.log(body);\n\
+          });\n"
+      - lang: PHP
+        source: |-
+          <?php
+
+          $curl = curl_init();
+
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\"username\":\"<ADD STRING VALUE>\"}",
+            CURLOPT_HTTPHEADER => array(
+              "accept: application/json",
+              "client-id: SOME_APIKEY_VALUE",
+              "content-type: application/json"
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+
+          curl_close($curl);
+
+          if ($err) {
+            echo "cURL Error #:" . $err;
+          } else {
+            echo $response;
+          }
+      - lang: Python
+        source: |-
+          import http.client
+
+          conn = http.client.HTTPSConnection("microsites.nbg.gr")
+
+          payload = "{\"username\":\"<ADD STRING VALUE>\"}"
+
+          headers = {
+              'accept': "application/json",
+              'content-type': "application/json",
+              'client-id': "SOME_APIKEY_VALUE"
+              }
+
+          conn.request("POST", "/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users", payload, headers)
+
+          res = conn.getresponse()
+          data = res.read()
+
+          print(data.decode("utf-8"))
+      - lang: Ruby
+        source: |-
+          require 'uri'
+          require 'net/http'
+
+          url = URI("https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users")
+
+          http = Net::HTTP.new(url.host, url.port)
+          http.use_ssl = true
+          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+          request = Net::HTTP::Post.new(url)
+          request["accept"] = 'application/json'
+          request["content-type"] = 'application/json'
+          request["client-id"] = 'SOME_APIKEY_VALUE'
+          request.body = "{\"username\":\"<ADD STRING VALUE>\"}"
+
+          response = http.request(request)
+          puts response.read_body
+      - lang: cUrl
+        source: |-
+          curl --request POST \
+            --url https://microsites.nbg.gr/api.gateway/sandbox/fxrates/headers/v1.1/sandbox/%7Bsandbox_id%7D/users \
+            --header 'accept: application/json' \
+            --header 'client-id: SOME_APIKEY_VALUE' \
+            --header 'content-type: application/json' \
+            --data '{"username":"<ADD STRING VALUE>"}'
+components:
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+    SandboxRequest:
+      description: Sandbox Request
+      required:
+      - sandboxId
+      type: object
+      properties:
+        sandboxId:
+          description: Sandbox unique identifier. E.g MySandbox
+          type: string
+    CreateUserRequest:
+      description: Create user for sandbox
+      required:
+      - username
+      type: object
+      properties:
+        username:
+          description: User unique username
+          type: string
+    SandboxUser:
+      title: Root Type for SandboxUser
+      description: "Each Sandbox defines one or more users. The user properties are\
+        \ required as headers during the API calls to allow the access to the API.\
+        \ \n"
+      type: object
+      properties:
+        Username:
+          type: string
+        ProviderId:
+          type: string
+        Provider:
+          type: string
+      example: "{\r\n    \"Username\": \"User1\",\r\n    \"ProviderId\": \"NBG.gr\"\
+        ,\r\n    \"Provider\": \"NBG\"\r\n}"
+    Currency:
+      title: Root Type for Currency
+      description: The root of the Currency type's schema.
+      type: object
+      properties:
+        currencySymbol:
+          type: string
+        currencyCode:
+          type: string
+      example: "{\r\n    \"currencySymbol\": \"USD\",\r\n    \"currencyCode\": \"\
+        002\"\r\n}"
+    SandboxDataModel:
+      type: object
+      properties:
+        sandboxId:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/SandboxUser'
+        fxRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/FxRate'
+        currencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Currency'
+    FxRate:
+      title: Root Type for FxRate
+      description: The root of the FxRate type's schema.
+      type: object
+      properties:
+        currencySymbol:
+          type: string
+        exchangeBuy:
+          type: string
+        exchangeSell:
+          type: string
+        currencyCode:
+          type: string
+        banknotesBuy:
+          type: string
+        banknotesSell:
+          type: string
+      example: "{\r\n\"currencySymbol\": \"USD\",\r\n\"exchangeBuy\": \"1.17695000\"\
+        ,\r\n\"exchangeSell\": \"1.10859000\",\r\n\"currencyCode\": \"002\",\r\n\"\
+        banknotesBuy\": \"1.17695000\",\r\n\"banknotesSell\": \"1.10859000\"\r\n}"
+  securitySchemes:
+    Client-Id:
+      type: apiKey
+      description: Application's Id
+      name: Client-Id
+      in: header
+    sandbox_id:
+      type: apiKey
+      description: the sandboxId specifying which sandbox will be used to serve the
+        request
+      name: sandbox_id
+      in: header
+    username:
+      type: apiKey
+      description: a username from the users contained in the API sandbox
+      name: username
+      in: header
+    provider:
+      type: apiKey
+      description: |
+        The user identity provider.  In most cases it will be the NBG, assuming the user is ibentified using his credentials in NBG's user registry.
+      name: provider
+      in: header
+    provider_id:
+      type: apiKey
+      description: The user id used by the provider to identify the user. It is applicable
+        only in cases when the user is using external identity providers, and doesn't
+        rely to the NBG's user registry.
+      name: provider_id
+      in: header
+security:
+- Client-Id: []
