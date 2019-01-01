@@ -463,7 +463,7 @@ paths:
     post:
       tags:
       - Sandbox
-      summary: Create Sandbox
+      summary: Creates a new Sandbox with the specified sandboxId
       description: "Creates a sandbox with unique sandbox id. This call can also be\
         \ used to create users, accounts etc.\r\n            \r\n            \r\n\
         Sample request:\r\n            \r\n    POST /sandbox\r\n    {\r\n        \"\
@@ -489,7 +489,8 @@ paths:
           $ref: '#/definitions/SandboxRequest'
       responses:
         201:
-          description: '- Created'
+          description: after the successfull sandbox creation, the call returns the
+            new sandbox as a json object
           schema:
             $ref: '#/definitions/SandboxDataModel'
         400:
@@ -639,7 +640,7 @@ paths:
       tags:
       - Sandbox
       summary: Export Sandbox
-      description: Export Sandbox data specified by sandbox id.
+      description: Returns the Sandbox specified by sandboxId as json object.
       operationId: Sandbox_ExportSandbox
       consumes: []
       produces:
@@ -783,33 +784,10 @@ paths:
     put:
       tags:
       - Sandbox
-      summary: Import Sandbox
-      description: "Imports sandbox data specified by sandbox id.\r\n            \r\
-        \n            \r\nSample request:\r\n            \r\n    PUT /sandbox/{sandbox_id}\r\
-        \n    {\r\n      \"SandboxID\": \"string\",\r\n      \"Users\": [\r\n    \
-        \    {\r\n          \"UserId\": \"88f9431d-834e-486a-910a-25b308a460cb\",\r\
-        \n          \"Username\": \"User1\",\r\n          \"ProviderId\": \"NBG.gr\"\
-        ,\r\n          \"Provider\": \"NBG\"\r\n        },\r\n        {\r\n      \
-        \    \"UserId\": \"ddc8e902-7645-4124-ad61-a62cf1e58267\",\r\n          \"\
-        Username\": \"User2\",\r\n          \"ProviderId\": \"NBG.gr\",\r\n      \
-        \    \"Provider\": \"NBG\"\r\n        }\r\n      ],\r\n      \"Accounts\"\
-        : [\r\n        {\r\n          \"userId\": \"88f9431d-834e-486a-910a-25b308a460cb\"\
-        ,\r\n          \"accountId\": \"1234\",\r\n          \"accountType\": \"Account\"\
-        ,\r\n          \"accountNumber\": \"1234567890\",\r\n          \"accountDescription\"\
-        : \"My Account\",\r\n          \"accountBalance\": 1000\r\n        },\r\n\
-        \        {\r\n          \"userId\": \"88f9431d-834e-486a-910a-25b308a460cb\"\
-        ,\r\n          \"accountId\": \"1111\",\r\n          \"accountType\": \"Card\"\
-        ,\r\n          \"accountNumber\": \"987654321012\",\r\n          \"accountDescription\"\
-        : \"My Card\",\r\n          \"accountBalance\": 1000\r\n        },\r\n   \
-        \     {\r\n          \"userId\": \"ddc8e902-7645-4124-ad61-a62cf1e58267\"\
-        ,\r\n          \"accountId\": \"9874\",\r\n          \"accountType\": \"Account\"\
-        ,\r\n          \"accountNumber\": \"9873210654\",\r\n          \"accountDescription\"\
-        : \"Account!!\",\r\n          \"accountBalance\": 20000\r\n        },\r\n\
-        \        {\r\n          \"userId\": \"ddc8e902-7645-4124-ad61-a62cf1e58267\"\
-        ,\r\n          \"accountId\": \"4444\",\r\n          \"accountType\": \"Card\"\
-        ,\r\n          \"accountNumber\": \"778899445566\",\r\n          \"accountDescription\"\
-        : \"Card!!\",\r\n          \"accountBalance\": 3000\r\n        }\r\n     \
-        \ ]\r\n    }"
+      summary: Updates the sandbox
+      description: Updates the Sandbox specified by sandboxId with the content of
+        the Request Body. After a successful update returns the new sandbox aa json
+        object.
       operationId: Sandbox_ImportSandbox
       consumes:
       - application/json
@@ -1004,7 +982,7 @@ paths:
       tags:
       - Sandbox
       summary: Delete Sandbox
-      description: Delete the Sandbox specified by sandbox id.
+      description: Deletes the Sanbox specified by sandboxId.
       operationId: Sandbox_DeleteSandbox
       consumes: []
       produces: []
