@@ -1487,3 +1487,10 @@ components:
       in: header
 security:
 - Client-Id: []
+  sandbox_id: []
+  username: []
+- Client-Id: []
+  sandbox_id: []
+  username: []
+  provider: []
+  provider_id: []
