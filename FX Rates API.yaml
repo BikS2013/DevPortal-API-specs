@@ -3,30 +3,35 @@ swagger: "2.0"
 info:
   title: FX Rates API
   description: "# Welcome to the FX Rates API. \n\nHere you will find guidelines for\
-    \ the interaction with an API dedicated to information about currencies and FX\
-    \ Rate.\n\nThe development and testing processes for the API are supported by\
-    \ a **Sandbox** facade, which is designed to provide a simple way for the developers\
-    \ to create and use datasets compatible with the API and suitable to their needs\
-    \ and scenarios.\n\nSandboxes provide a simple way of testing APIs without any\
-    \ real impact, meaning that no personal or financial data is used. \n\n**Step\
-    \ One: Create your first Sandbox Application** \n\nCreate a new Sandbox application\
-    \ by invoking the POST /sandbox endpoint.This call will generate a new Sandbox\
-    \ with a unique sandbox_id. \n\n**Important!** Before proceeding save the sandbox\
-    \ id you just created. \n\nWhen you create a sandbox, users and sandbox specific\
-    \ data are generated as sample data. \n\n## **Security Requirements**\n- The following\
-    \ HTTP **header parameters** are used for every call (except for sandbox operations).\
-    \ \n- For the sandbox operations only the `client-id` parameter is used and it\
+    \ the interaction with the FX Rates API an API dedicated to information about\
+    \ Currencies and Currency Exchange Rates.\n\nThe development and testing processes\
+    \ for the API are supported by a **Sandbox**, a construct designed to provide\
+    \ a simple way for developers to experiment with the API using data suitable to\
+    \ their needs and scenarios.\n\nSandboxes provide a simple way of testing APIs\
+    \ without any real impact, meaning that no personal or financial data is used.\
+    \ \n\n**Step One: Create your first Sandbox Application** \n\nCreate a new Sandbox\
+    \ application by invoking the POST /sandbox endpoint, as presented bellow. This\
+    \ call will generate a new Sandbox with a unique sandbox_id. \n\n**Important!**\
+    \ Before proceeding save the sandbox id you just created. \n\nWhen you create\
+    \ a sandbox, user and sandbox specific data are generated as sample data. \n\n\
+    ## **Security Requirements**\n- The following HTTP **header parameters** are used\
+    \ for every call (except for sandbox operations). \n\n\n1.  **client-id**\n- **sandbox_id**\
+    \ \n- **username** \n- **provider_id** \n- **provider** \n- **application_id**\n\
+    \n\n- For the sandbox operations only the `client-id` parameter is used and it\
     \ is required. \n- For the rest of the operations the `client-id`, the `sandbox_id`,\
-    \ and the `username` headers are required.\n\n\n1.  client-id\n2.  sandbox_id\
-    \ \n3.\tusername \n4.\tprovider_id \n5.\tprovider \n6.\tapplication_id\n\n## **Sandbox\
-    \ Operations:** \n1.\tCreate a sandbox: POST /sandbox \n2.\tExport a sandbox:\
-    \ GET /sandbox/{sandbox_id}\n3.\tImport a sandbox: PUT /sandbox/{sandbox_id}\n\
+    \ and the `username` headers are required.\n- `provider`and `provider_id` can\
+    \ be found as properties in the appropriate user object in Sandbox Data \n\n##\
+    \ **Sandbox Operations:** \n1.\tCreate a sandbox: POST /sandbox \n2.\tExport a\
+    \ sandbox: GET /sandbox/{sandbox_id}\n3.\tImport a sandbox: PUT /sandbox/{sandbox_id}\n\
     4.\tDelete a sandbox: DELETE /sandbox/{sandbox_id} \n5.\tCreate a sandbox user:\
     \ POST /sandbox/{sandbox_id}/users\n\n[Sandbox Postman Collection](https://github.com/myNBGcode/PostmanCollections/)\n\
     \n------------------------------------------------------------------------------------------\
     \ \n\nCreated by **NBG**. \n\nSee more at https://www.nbg.gr/"
   contact:
     email: developer@nbg.gr
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
   version: v1.1
 host: microsites.nbg.gr
 basePath: /api.gateway/sandbox/fxrates/headers/v1.1
@@ -1417,6 +1422,19 @@ securityDefinitions:
     type: apiKey
     description: a username from the users contained in the API sandbox
     name: username
+    in: header
+  provider:
+    type: apiKey
+    description: |
+      The user identity provider.  In most cases it will be the NBG, assuming the user is ibentified using his credentials in NBG's user registry.
+    name: provider
+    in: header
+  provider_id:
+    type: apiKey
+    description: The user id used by the provider to identify the user. It is applicable
+      only in cases when the user is using external identity providers, and doesn't
+      rely to the NBG's user registry.
+    name: provider_id
     in: header
 security:
 - Client-Id: []
