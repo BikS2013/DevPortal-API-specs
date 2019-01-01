@@ -11,11 +11,14 @@ info:
     \ a new Sandbox application by invoking the POST /sandbox endpoint.This call will\
     \ generate a new Sandbox with a unique sandbox_id. \n\n**Important!** Before proceeding\
     \ save the sandbox id you just created. \n\nWhen you create a sandbox, users and\
-    \ sandbox specific data are generated as sample data. \n\nThe following HTTP **header\
-    \ parameters** are required for every call (except for sandbox operations): \n\
-    1.\tsandbox_id \n2.\t username \n3.\t provider_id \n4.\t provider \n5.\t application_id\n\
-    \n**Sandbox Operations:** \n1.\tCreate a sandbox: POST /sandbox \n2.\tExport a\
-    \ sandbox: GET /sandbox/{sandbox_id}\n3.\tImport a sandbox: PUT /sandbox/{sandbox_id}\n\
+    \ sandbox specific data are generated as sample data. \n\n## **Security Requirements**\n\
+    - The following HTTP **header parameters** are used for every call (except for\
+    \ sandbox operations). \n- For the sandbox operations only the `client-id` parameter\
+    \ is used and it is required. \n- For the rest of the operations the `client-id`,\
+    \ the `sandbox_id`, and the `username` headers are required.\n\n\n1.  client-id\n\
+    2.  sandbox_id \n3.\tusername \n4.\tprovider_id \n5.\tprovider \n6.\tapplication_id\n\
+    \n## **Sandbox Operations:** \n1.\tCreate a sandbox: POST /sandbox \n2.\tExport\
+    \ a sandbox: GET /sandbox/{sandbox_id}\n3.\tImport a sandbox: PUT /sandbox/{sandbox_id}\n\
     4.\tDelete a sandbox: DELETE /sandbox/{sandbox_id} \n5.\tCreate a sandbox user:\
     \ POST /sandbox/{sandbox_id}/users\n\n[Sandbox Postman Collection](https://github.com/myNBGcode/PostmanCollections/)\n\
     \n------------------------------------------------------------------------------------------\
@@ -1401,6 +1404,17 @@ securityDefinitions:
     type: apiKey
     description: Application's Id
     name: Client-Id
+    in: header
+  sandbox_id:
+    type: apiKey
+    description: the sandboxId specifying which sandbox will be used to serve the
+      request
+    name: sandbox_id
+    in: header
+  username:
+    type: apiKey
+    description: a username from the users contained in the API sandbox
+    name: username
     in: header
 security:
 - Client-Id: []
