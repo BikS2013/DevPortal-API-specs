@@ -1,5 +1,70 @@
 ---
+openapi: 3.0.2
 info:
   title: FXRates2
   version: 1.0.0
-openapi: 3.0.2
+components:
+  schemas:
+    SandboxUser:
+      title: Root Type for SandboxUser
+      description: "Each Sandbox defines one or more users. The user properties are\
+        \ required as headers during the API calls to allow the access to the API.\
+        \ \n"
+      type: object
+      properties:
+        Username:
+          type: string
+        ProviderId:
+          type: string
+        Provider:
+          type: string
+      example: "{\r\n    \"Username\": \"User1\",\r\n    \"ProviderId\": \"NBG.gr\"\
+        ,\r\n    \"Provider\": \"NBG\"\r\n}"
+    SandboxDataModel:
+      type: object
+      properties:
+        sandboxId:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/SandboxUser'
+        fxRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/FxRate'
+        currencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Currency'
+    Currency:
+      title: Root Type for Currency
+      description: The root of the Currency type's schema.
+      type: object
+      properties:
+        currencySymbol:
+          type: string
+        currencyCode:
+          type: string
+      example: "{\r\n    \"currencySymbol\": \"USD\",\r\n    \"currencyCode\": \"\
+        002\"\r\n}"
+    FxRate:
+      title: Root Type for FxRate
+      description: The root of the FxRate type's schema.
+      type: object
+      properties:
+        currencySymbol:
+          type: string
+        exchangeBuy:
+          type: string
+        exchangeSell:
+          type: string
+        currencyCode:
+          type: string
+        banknotesBuy:
+          type: string
+        banknotesSell:
+          type: string
+      example: "{\r\n\"currencySymbol\": \"USD\",\r\n\"exchangeBuy\": \"1.17695000\"\
+        ,\r\n\"exchangeSell\": \"1.10859000\",\r\n\"currencyCode\": \"002\",\r\n\"\
+        banknotesBuy\": \"1.17695000\",\r\n\"banknotesSell\": \"1.10859000\"\r\n}"
