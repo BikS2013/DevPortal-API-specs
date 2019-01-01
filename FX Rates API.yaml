@@ -2,23 +2,25 @@
 swagger: "2.0"
 info:
   title: FX Rates API
-  description: "# Introduction\n\nWelcome to the FX Rates Sandbox API, here you will\
-    \ find guidelines for the interaction with the API. Any user can get information\
-    \ about an FX Rate.\n\nBelow you'll find details about our FX Rates Sandbox and\
-    \ the complete list of the available endpoints.\n\nSandboxes provide a simple\
-    \ way of testing APIs without any real impact, meaning that no personal or financial\
-    \ data is used. \n\n**Step One: Create your first Sandbox Application** \n\nCreate\
-    \ a new Sandbox application by invoking the POST /sandbox endpoint.This call will\
-    \ generate a new Sandbox with a unique sandbox_id. \n\n**Important!** Before proceeding\
-    \ save the sandbox id you just created. \n\nWhen you create a sandbox, users and\
-    \ sandbox specific data are generated as sample data. \n\n## **Security Requirements**\n\
-    - The following HTTP **header parameters** are used for every call (except for\
-    \ sandbox operations). \n- For the sandbox operations only the `client-id` parameter\
-    \ is used and it is required. \n- For the rest of the operations the `client-id`,\
-    \ the `sandbox_id`, and the `username` headers are required.\n\n\n1.  client-id\n\
-    2.  sandbox_id \n3.\tusername \n4.\tprovider_id \n5.\tprovider \n6.\tapplication_id\n\
-    \n## **Sandbox Operations:** \n1.\tCreate a sandbox: POST /sandbox \n2.\tExport\
-    \ a sandbox: GET /sandbox/{sandbox_id}\n3.\tImport a sandbox: PUT /sandbox/{sandbox_id}\n\
+  description: "# Welcome to the FX Rates API. \n\nHere you will find guidelines for\
+    \ the interaction with an API dedicated to information about currencies and FX\
+    \ Rate.\n\nThe development and testing processes for the API are supported by\
+    \ a **Sandbox** facade, which is designed to provide a simple way for the developers\
+    \ to create and use datasets compatible with the API and suitable to their needs\
+    \ and scenarios.\n\nSandboxes provide a simple way of testing APIs without any\
+    \ real impact, meaning that no personal or financial data is used. \n\n**Step\
+    \ One: Create your first Sandbox Application** \n\nCreate a new Sandbox application\
+    \ by invoking the POST /sandbox endpoint.This call will generate a new Sandbox\
+    \ with a unique sandbox_id. \n\n**Important!** Before proceeding save the sandbox\
+    \ id you just created. \n\nWhen you create a sandbox, users and sandbox specific\
+    \ data are generated as sample data. \n\n## **Security Requirements**\n- The following\
+    \ HTTP **header parameters** are used for every call (except for sandbox operations).\
+    \ \n- For the sandbox operations only the `client-id` parameter is used and it\
+    \ is required. \n- For the rest of the operations the `client-id`, the `sandbox_id`,\
+    \ and the `username` headers are required.\n\n\n1.  client-id\n2.  sandbox_id\
+    \ \n3.\tusername \n4.\tprovider_id \n5.\tprovider \n6.\tapplication_id\n\n## **Sandbox\
+    \ Operations:** \n1.\tCreate a sandbox: POST /sandbox \n2.\tExport a sandbox:\
+    \ GET /sandbox/{sandbox_id}\n3.\tImport a sandbox: PUT /sandbox/{sandbox_id}\n\
     4.\tDelete a sandbox: DELETE /sandbox/{sandbox_id} \n5.\tCreate a sandbox user:\
     \ POST /sandbox/{sandbox_id}/users\n\n[Sandbox Postman Collection](https://github.com/myNBGcode/PostmanCollections/)\n\
     \n------------------------------------------------------------------------------------------\
